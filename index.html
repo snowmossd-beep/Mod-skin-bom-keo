@@ -10,8 +10,45 @@
 <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <style>.step.is-locked{opacity:1!important;pointer-events:auto!important}</style>
+<style>
+.splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;background:#000;color:#ededed;text-align:center;opacity:1;transition:opacity .5s ease;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.splash.hide{opacity:0;pointer-events:none}
+.splash-in{max-width:520px;display:grid;justify-items:center;gap:0;animation:splash-in .7s ease both}
+.splash-tag{margin:0;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#8a8a8a}
+.splash-handle{margin:6px 0 0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.splash-rule{width:32px;height:1px;margin:26px 0;background:#333;border:0}
+.splash-name{margin:0;font-size:clamp(26px,6.4vw,40px);line-height:1.2;font-weight:650;letter-spacing:-.025em}
+.splash-hint{margin:44px 0 0;font-size:12px;color:#5f5f5f}
+@keyframes splash-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.splash,.splash-in{transition:none;animation:none}}
+</style>
 </head>
 <body>
+<div class="splash" id="splash" role="dialog" aria-label="Giới thiệu">
+  <div class="splash-in">
+    <p class="splash-tag">TikTok</p>
+    <p class="splash-handle">@cakconchaba</p>
+    <hr class="splash-rule">
+    <p class="splash-name">Trần Quốc Nguyên<br>Siêu Cấp Bá Khí</p>
+    <p class="splash-hint">Chạm để vào</p>
+  </div>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('splash');
+  try{if(sessionStorage.getItem('splash-seen')){s.remove();return}}catch(e){}
+  var done=false;
+  function close(){
+    if(done)return;done=true;
+    try{sessionStorage.setItem('splash-seen','1')}catch(e){}
+    s.classList.add('hide');
+    setTimeout(function(){s.remove()},600);
+  }
+  s.addEventListener('click',close);
+  document.addEventListener('keydown',close,{once:true});
+  setTimeout(close,2800);
+})();
+</script>
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="./"><span class="brand-name">VennLMAO</span><span class="brand-sep">/</span><span class="brand-sub">Mod bom keo</span></a>
@@ -111,14 +148,14 @@
   </section>
 </main>
 
-<footer class="foot"><div class="wrap"><span id="ver">VennLMAO · html v4 · js chưa tải</span></div></footer>
+<footer class="foot"><div class="wrap"><span id="ver">VennLMAO · html v5 · js chưa tải</span></div></footer>
 
 <script>
 document.querySelectorAll('.is-locked').forEach(function(n){n.classList.remove('is-locked')});
 setTimeout(function(){if(!window.__bomkeo){var p=document.getElementById('plat-note');if(p){p.textContent='Không tải được js/app.js. Kiểm tra file js/app.js trong repo.';p.className='note err'}}},2500);
 </script>
-<script src="js/gloo-core.js?v=4"></script>
-<script src="js/viewer.js?v=4"></script>
-<script src="js/app.js?v=4"></script>
+<script src="js/gloo-core.js?v=5"></script>
+<script src="js/viewer.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
 </body>
 </html>
