@@ -9,6 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Cpath d='M7 9h4l5 12 5-12h4l-7 16h-4z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
+<style>.step.is-locked{opacity:1!important;pointer-events:auto!important}</style>
 </head>
 <body>
 <header class="top">
@@ -40,12 +41,12 @@
       <p class="note" id="plat-note" aria-live="polite"></p>
     </section>
 
-    <section class="step is-locked" id="s2" aria-labelledby="h2">
+    <section class="step" id="s2" aria-labelledby="h2">
       <h2 id="h2"><span class="num">2</span>Bom keo</h2>
       <div class="skins" id="skins" role="radiogroup" aria-label="Chọn bom keo"></div>
     </section>
 
-    <section class="step is-locked" id="s3" aria-labelledby="h3">
+    <section class="step" id="s3" aria-labelledby="h3">
       <h2 id="h3"><span class="num">3</span>Ảnh</h2>
       <input class="sr" id="file" type="file" accept="image/*">
       <div class="file-row">
@@ -60,9 +61,10 @@
       <p class="note" id="file-note" aria-live="polite"></p>
     </section>
 
-    <section class="step is-locked" id="s4" aria-labelledby="h4">
+    <section class="step" id="s4" aria-labelledby="h4">
       <h2 id="h4"><span class="num">4</span>Tạo file</h2>
       <button class="btn btn-primary" id="go" type="button" disabled>Tạo file mod</button>
+      <p class="note" id="go-note" aria-live="polite"></p>
       <div class="progress" id="prog" hidden>
         <div class="bar"><span id="bar"></span></div>
         <div class="prog-row"><span id="prog-t">Đang xử lý</span><span id="prog-p">0%</span></div>
@@ -109,10 +111,14 @@
   </section>
 </main>
 
-<footer class="foot"><div class="wrap">VennLMAO</div></footer>
+<footer class="foot"><div class="wrap"><span id="ver">VennLMAO · html v4 · js chưa tải</span></div></footer>
 
-<script src="js/gloo-core.js?v=1"></script>
-<script src="js/viewer.js?v=1"></script>
-<script src="js/app.js?v=1"></script>
+<script>
+document.querySelectorAll('.is-locked').forEach(function(n){n.classList.remove('is-locked')});
+setTimeout(function(){if(!window.__bomkeo){var p=document.getElementById('plat-note');if(p){p.textContent='Không tải được js/app.js. Kiểm tra file js/app.js trong repo.';p.className='note err'}}},2500);
+</script>
+<script src="js/gloo-core.js?v=4"></script>
+<script src="js/viewer.js?v=4"></script>
+<script src="js/app.js?v=4"></script>
 </body>
 </html>
