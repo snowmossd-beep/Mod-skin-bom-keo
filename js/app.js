@@ -1,5 +1,7 @@
 (function(){
 'use strict';
+window.__bomkeo='v4';
+var verEl=document.getElementById('ver');if(verEl)verEl.textContent='VennLMAO · html v4 · js v4';
 var ROOT=new URL('../',document.currentScript.src).href;
 var $=function(s){return document.querySelector(s)};
 var core=window.GlooCore,Viewer=window.WallViewer;
@@ -7,9 +9,10 @@ var el={
   device:$('#sel-device'),ff:$('#sel-ff'),pnote:$('#plat-note'),
   s2:$('#s2'),s3:$('#s3'),s4:$('#s4'),skins:$('#skins'),
   file:$('#file'),fname:$('#file-name'),zoom:$('#zoom'),center:$('#center'),fnote:$('#file-note'),
-  go:$('#go'),prog:$('#prog'),bar:$('#bar'),pt:$('#prog-t'),pp:$('#prog-p'),result:$('#result'),
+  go:$('#go'),gnote:$('#go-note'),prog:$('#prog'),bar:$('#bar'),pt:$('#prog-t'),pp:$('#prog-p'),result:$('#result'),
   crop:$('#crop'),cv:$('#crop-cv'),cempty:$('#crop-empty'),v3d:$('#v3d-cv'),v3empty:$('#v3d-empty')
 };
+['s2','s3','s4'].forEach(function(id){var n=document.getElementById(id);if(n)n.classList.remove('is-locked')});
 var S={cfg:null,mesh:null,tris:null,plat:null,pcfg:null,ptris:null,base:null,skin:null,img:null,busy:false,zoom:1,cx:.5,cy:.5,url:null};
 var viewer=null,enc=null,t3=0,previewTimer=0;
 var FW=1536,PW=640,PN=512;
@@ -46,13 +49,11 @@ function renderSkins(){
 function platform(){
   if(!S.cfg)return;
   var d=el.device.value,f=el.ff.value;
-  S.plat=null;S.pcfg=null;S.ptris=null;S.base=null;S.skin=null;
-  Array.prototype.forEach.call(el.skins.children,function(c){c.setAttribute('aria-checked','false')});
-  lock(el.s2,true);lock(el.s3,true);lock(el.s4,true);el.result.hidden=true;
-  if(!d||!f){note(el.pnote,'');return}
+  S.plat=null;S.pcfg=null;S.ptris=null;S.base=null;el.result.hidden=true;
+  if(!d||!f){note(el.pnote,'');refreshGo();return}
   var p=S.cfg.platforms.filter(function(x){return x.device===d&&x.ff===f})[0];
-  if(!p||!p.ready){note(el.pnote,'Chưa có dữ liệu cho cấu hình này, sẽ cập nhật sau.');return}
-  S.plat=p;note(el.pnote,'');lock(el.s2,false);
+  if(!p||!p.ready){note(el.pnote,'Chưa có dữ liệu cho cấu hình này, sẽ cập nhật sau.');refreshGo();return}
+  S.plat=p;note(el.pnote,'');refreshGo();
   var base=ROOT+'gloo/'+p.id+'/';
   Promise.all([fetchJSON(base+'config.json?v=1'),fetchJSON(base+'tris.json?v=1')]).then(function(a){if(S.plat!==p)return;S.pcfg=a[0];S.ptris=a[1]}).catch(function(e){note(el.pnote,'Lỗi: '+e.message,true)});
 }
@@ -60,7 +61,7 @@ function pickSkin(s,b){
   if(S.busy)return;
   S.skin=s;
   Array.prototype.forEach.call(el.skins.children,function(c){c.setAttribute('aria-checked',String(c===b))});
-  lock(el.s3,false);refreshGo();
+  refreshGo();
 }
 function onFile(){
   var f=el.file.files&&el.file.files[0];note(el.fnote,'');
@@ -134,7 +135,15 @@ function bindCrop(){
     if(h){e.preventDefault();onChange()}
   });
 }
-function refreshGo(){el.go.disabled=!(S.img&&S.skin&&S.plat&&!S.busy);lock(el.s4,!(S.img&&S.skin&&S.plat))}
+function refreshGo(){
+  var miss=[];
+  if(!el.device.value||!el.ff.value)miss.push('thiết bị và Free Fire');
+  else if(!S.plat)miss.push('cấu hình có dữ liệu');
+  if(!S.skin)miss.push('bom keo');
+  if(!S.img)miss.push('ảnh');
+  el.go.disabled=miss.length>0||S.busy;
+  note(el.gnote,miss.length?'Còn thiếu: '+miss.join(', ')+'.':'');
+}
 function loadEncoder(){
   if(window.__glooEncoder)return Promise.resolve(window.__glooEncoder);
   if(enc)return enc;
@@ -177,5 +186,5 @@ el.zoom.addEventListener('input',function(e){setZoom(parseFloat(e.target.value))
 el.center.addEventListener('click',function(){S.cx=.5;S.cy=.5;setZoom(1)});
 el.go.addEventListener('click',go);
 window.addEventListener('resize',function(){draw()});
-bindCrop();boot();
+bindCrop();refreshGo();boot();
 })();
