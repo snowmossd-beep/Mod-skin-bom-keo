@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-window.__bomkeo='v4';
-var verEl=document.getElementById('ver');if(verEl)verEl.textContent='VennLMAO · html v4 · js v4';
+window.__bomkeo='v5';
+var verEl=document.getElementById('ver');if(verEl)verEl.textContent='VennLMAO · html v5 · js v5';
 var ROOT=new URL('../',document.currentScript.src).href;
 var $=function(s){return document.querySelector(s)};
 var core=window.GlooCore,Viewer=window.WallViewer;
