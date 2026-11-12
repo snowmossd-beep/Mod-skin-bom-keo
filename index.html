@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VennLMAO · Mod bom keo</title>
+<meta name="description" content="Tạo mod skin bom keo Free Fire từ ảnh của bạn. Xử lý hoàn toàn trên trình duyệt.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Cpath d='M7 9h4l5 12 5-12h4l-7 16h-4z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="./"><span class="brand-name">VennLMAO</span><span class="brand-sep">/</span><span class="brand-sub">Mod bom keo</span></a>
+    <a class="top-link" href="#huong-dan">Hướng dẫn cài đặt</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <h1>Mod bom keo</h1>
+    <p>Chọn thiết bị, tải ảnh của bạn lên và chọn vùng hiển thị. File mod được tạo ngay trên trình duyệt, ảnh không bị gửi đi đâu.</p>
+  </div>
+
+  <div class="layout">
+    <section class="step" id="s1" aria-labelledby="h1">
+      <h2 id="h1"><span class="num">1</span>Thiết bị</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="sel-device">Hệ điều hành</label>
+          <div class="select"><select id="sel-device"><option value="">Chọn</option><option value="android">Android</option><option value="ios">iOS</option></select></div>
+        </div>
+        <div class="field">
+          <label for="sel-ff">Free Fire</label>
+          <div class="select"><select id="sel-ff"><option value="">Chọn</option><option value="th">Free Fire thường</option><option value="max">Free Fire MAX</option></select></div>
+        </div>
+      </div>
+      <p class="note" id="plat-note" aria-live="polite"></p>
+    </section>
+
+    <section class="step is-locked" id="s2" aria-labelledby="h2">
+      <h2 id="h2"><span class="num">2</span>Bom keo</h2>
+      <div class="skins" id="skins" role="radiogroup" aria-label="Chọn bom keo"></div>
+    </section>
+
+    <section class="step is-locked" id="s3" aria-labelledby="h3">
+      <h2 id="h3"><span class="num">3</span>Ảnh</h2>
+      <input class="sr" id="file" type="file" accept="image/*">
+      <div class="file-row">
+        <label class="btn" for="file" id="file-btn">Chọn ảnh</label>
+        <span class="file-name" id="file-name">Chưa chọn ảnh</span>
+      </div>
+      <div class="field">
+        <label for="zoom">Thu phóng</label>
+        <input id="zoom" type="range" min="1" max="5" step="0.01" value="1" disabled>
+      </div>
+      <button class="btn btn-ghost" id="center" type="button" disabled>Đặt lại vị trí</button>
+      <p class="note" id="file-note" aria-live="polite"></p>
+    </section>
+
+    <section class="step is-locked" id="s4" aria-labelledby="h4">
+      <h2 id="h4"><span class="num">4</span>Tạo file</h2>
+      <button class="btn btn-primary" id="go" type="button" disabled>Tạo file mod</button>
+      <div class="progress" id="prog" hidden>
+        <div class="bar"><span id="bar"></span></div>
+        <div class="prog-row"><span id="prog-t">Đang xử lý</span><span id="prog-p">0%</span></div>
+      </div>
+      <div class="result" id="result" hidden></div>
+    </section>
+
+    <aside class="preview" aria-label="Xem trước">
+      <div class="pane">
+        <div class="pane-h"><h3>Vùng hiển thị</h3><span>Kéo để di chuyển, cuộn hoặc kẹp hai ngón để thu phóng</span></div>
+        <div class="crop" id="crop" tabindex="0" aria-label="Vùng cắt ảnh">
+          <canvas id="crop-cv"></canvas>
+          <div class="empty" id="crop-empty">Chưa có ảnh</div>
+        </div>
+        <p class="pane-f">Khung chữ nhật là mặt tường. Ô vuông nét đứt là phần ảnh lên trái keo cầm tay.</p>
+      </div>
+      <div class="pane">
+        <div class="pane-h"><h3>Xem 3D</h3><span>Kéo để xoay</span></div>
+        <div class="view3d" id="v3d"><canvas id="v3d-cv"></canvas><div class="empty" id="v3d-empty" hidden></div></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="guide" id="huong-dan" aria-labelledby="hg">
+    <h2 id="hg">Hướng dẫn cài đặt</h2>
+    <ol>
+      <li>Tạo file mod ở phần trên và tải về. Không đổi tên file.</li>
+      <li>Thoát hẳn Free Fire, xóa game khỏi danh sách ứng dụng đang chạy.</li>
+      <li>Mở trình quản lý file và vào thư mục dữ liệu game theo bảng bên dưới.</li>
+      <li>Sao lưu file gốc cùng tên ra nơi khác.</li>
+      <li>Chép file mod vào thư mục, chọn thay thế file cùng tên.</li>
+      <li>Mở lại game và dùng đúng skin bom keo đã chọn.</li>
+    </ol>
+    <table>
+      <thead><tr><th>Phiên bản</th><th>Thư mục chứa file</th></tr></thead>
+      <tbody>
+        <tr><td>Android · Free Fire thường</td><td><code>Android/data/com.dts.freefireth/files/contentcache/Optional/android/gameassetbundles/</code></td></tr>
+        <tr><td>Android · Free Fire MAX</td><td><code>Android/data/com.dts.freefiremax/files/contentcache/Optional/android/gameassetbundles/</code></td></tr>
+        <tr><td>iOS · Free Fire thường</td><td>Đang cập nhật</td></tr>
+        <tr><td>iOS · Free Fire MAX</td><td>Đang cập nhật</td></tr>
+      </tbody>
+    </table>
+    <p class="warn">File mod chỉ thay đổi hình ảnh trong máy của bạn và có thể vi phạm điều khoản của Garena. Bạn tự chịu rủi ro khi sử dụng.</p>
+  </section>
+</main>
+
+<footer class="foot"><div class="wrap">VennLMAO</div></footer>
+
+<script src="js/gloo-core.js?v=1"></script>
+<script src="js/viewer.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>

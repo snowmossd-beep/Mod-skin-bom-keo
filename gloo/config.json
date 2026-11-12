@@ -1,0 +1,36 @@
+{
+ "platforms": [
+  {
+   "id": "android-max",
+   "device": "android",
+   "ff": "max",
+   "ready": true
+  },
+  {
+   "id": "android-th",
+   "device": "android",
+   "ff": "th",
+   "ready": false
+  },
+  {
+   "id": "ios-max",
+   "device": "ios",
+   "ff": "max",
+   "ready": false
+  },
+  {
+   "id": "ios-th",
+   "device": "ios",
+   "ff": "th",
+   "ready": false
+  }
+ ],
+ "skins": [
+  {
+   "id": "anh-duong",
+   "name": "Ánh Dương",
+   "sub": "Tường keo hình vòm",
+   "img": "gloo/img/anh-duong.webp"
+  }
+ ]
+}
