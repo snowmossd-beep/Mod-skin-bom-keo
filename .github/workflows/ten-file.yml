@@ -11,7 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extractvennlmao-bomkeo-site.zip*.zip
+      - name: Extract
+        run: unzip -o vennlmao-bomkeo-site.zip
 
       - name: Commit extracted files
         run: |
