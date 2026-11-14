@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-window.__bomkeo='v5';
-var verEl=document.getElementById('ver');if(verEl)verEl.textContent='VennLMAO · html v5 · js v5';
+window.__bomkeo='v6';
+var verEl=document.getElementById('ver');if(verEl)verEl.textContent='VennLMAO · html v6 · js v6';
 var ROOT=new URL('../',document.currentScript.src).href;
 var $=function(s){return document.querySelector(s)};
 var core=window.GlooCore,Viewer=window.WallViewer;
@@ -46,13 +46,19 @@ function renderSkins(){
     el.skins.appendChild(b);
   });
 }
+var DN={android:'Android',ios:'iOS'},FN={th:'FF thường',max:'FF MAX'};
+function platLabel(p){return DN[p.device]+' · '+FN[p.ff]}
 function platform(){
   if(!S.cfg)return;
   var d=el.device.value,f=el.ff.value;
   S.plat=null;S.pcfg=null;S.ptris=null;S.base=null;el.result.hidden=true;
   if(!d||!f){note(el.pnote,'');refreshGo();return}
   var p=S.cfg.platforms.filter(function(x){return x.device===d&&x.ff===f})[0];
-  if(!p||!p.ready){note(el.pnote,'Chưa có dữ liệu cho cấu hình này, sẽ cập nhật sau.');refreshGo();return}
+  if(!p||!p.ready){
+    var ok=S.cfg.platforms.filter(function(x){return x.ready}).map(platLabel);
+    note(el.pnote,'Chưa có dữ liệu cho '+DN[d]+' · '+FN[f]+'.'+(ok.length?' Hiện chỉ có: '+ok.join(', ')+'.':''));
+    refreshGo();return;
+  }
   S.plat=p;note(el.pnote,'');refreshGo();
   var base=ROOT+'gloo/'+p.id+'/';
   Promise.all([fetchJSON(base+'config.json?v=1'),fetchJSON(base+'tris.json?v=1')]).then(function(a){if(S.plat!==p)return;S.pcfg=a[0];S.ptris=a[1]}).catch(function(e){note(el.pnote,'Lỗi: '+e.message,true)});
@@ -137,12 +143,14 @@ function bindCrop(){
 }
 function refreshGo(){
   var miss=[];
+  var noData=false;
   if(!el.device.value||!el.ff.value)miss.push('thiết bị và Free Fire');
-  else if(!S.plat)miss.push('cấu hình có dữ liệu');
+  else if(!S.plat)noData=true;
   if(!S.skin)miss.push('bom keo');
   if(!S.img)miss.push('ảnh');
   el.go.disabled=miss.length>0||S.busy;
-  note(el.gnote,miss.length?'Còn thiếu: '+miss.join(', ')+'.':'');
+  note(el.gnote,noData?'Cấu hình đã chọn chưa có dữ liệu, xem thông báo ở Bước 1.':(miss.length?'Còn thiếu: '+miss.join(', ')+'.':''));
+  if(noData)el.go.disabled=true;
 }
 function loadEncoder(){
   if(window.__glooEncoder)return Promise.resolve(window.__glooEncoder);
